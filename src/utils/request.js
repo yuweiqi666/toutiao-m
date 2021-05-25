@@ -13,4 +13,4 @@ const request = axios.create({
 // 响应拦截器
 
 // 导出
-export default axios
+export default request
