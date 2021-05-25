@@ -2,6 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import './assets/styles/reset.scss'
+import './assets/styles/common.scss'
+import './vant/index'
+// 根据屏幕宽度动态设置rem基准值
+import 'amfe-flexible'
+
+import '@/assets/icons'
 
 Vue.config.productionTip = false
 
