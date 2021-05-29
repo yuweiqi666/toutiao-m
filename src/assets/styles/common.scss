@@ -18,10 +18,14 @@ body {
 }
 
 // 输入框左侧图标的margin距离
-.van-cell-group {
-    .van-cell {
-      .van-field__left-icon {
-        margin-right: 16px;
-      }
-    }
+.van-cell {
+  .van-field__left-icon {
+    margin-right: 16px;
   }
+}
+
+//toast轻提示顶部位置
+.van-toast--top {
+  top: 7% !important;
+}
+ 

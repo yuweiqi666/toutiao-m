@@ -7,8 +7,8 @@ import {
   TabbarItem,
   NavBar,
   Field,
-  CellGroup,
-  Toast
+  Toast,
+  Form
 } from 'vant'
 
 Vue.use(Button)
@@ -16,5 +16,5 @@ Vue.use(Tabbar)
 Vue.use(TabbarItem)
 Vue.use(NavBar)
 Vue.use(Field)
-Vue.use(CellGroup)
 Vue.use(Toast)
+Vue.use(Form)
