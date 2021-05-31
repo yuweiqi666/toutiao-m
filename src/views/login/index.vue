@@ -68,9 +68,11 @@ export default {
           duration: 0
         })
         try {
-          const res = await hanldeLoginApi(this.user)
-          console.log('请求返回', res)
+          const { data } = await hanldeLoginApi(this.user)
+          console.log('请求返回', data)
           this.$toast.success('登陆成功')
+          // vuex存储登录接口获取的token数据
+          this.$store.commit('setUser', data.data)
         } catch (err) {
           console.log('登陆失败', err)
           this.$toast.fail('登陆失败 手机号或验证码错误')
@@ -94,7 +96,7 @@ export default {
         await this.$refs.loginForm.validate('mobile')
         // 验证码倒计时函数
         countDown(e)
-        // 掉后台接口发送验证码
+        // 调后台接口发送验证码
         try {
           const res = await handleSendMobileMessageApi(this.user.mobile)
           console.log('验证码返回', res)
