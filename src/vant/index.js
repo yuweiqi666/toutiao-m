@@ -8,7 +8,12 @@ import {
   NavBar,
   Field,
   Toast,
-  Form
+  Form,
+  Cell,
+  CellGroup,
+  Image,
+  Grid,
+  GridItem
 } from 'vant'
 
 Vue.use(Button)
@@ -18,3 +23,8 @@ Vue.use(NavBar)
 Vue.use(Field)
 Vue.use(Toast)
 Vue.use(Form)
+Vue.use(Cell)
+Vue.use(CellGroup)
+Vue.use(Image)
+Vue.use(Grid)
+Vue.use(GridItem)

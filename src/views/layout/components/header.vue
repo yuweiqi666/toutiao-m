@@ -1,5 +1,5 @@
 <template>
-  <div>头部区域</div>
+  <div></div>
 </template>
 
 <script>
