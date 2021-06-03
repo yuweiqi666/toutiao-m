@@ -38,6 +38,12 @@
     <div class="login-btn-wrapper">
       <van-button type="info" block @click="handleLogin">登录</van-button>
     </div>
+    <div class="account">
+      <p>测试账号 / 万能验证码</p>
+      <p>13911111111 / 246810</p>
+      <p>13611111111 / 246810</p>
+      <p>13922222222 / 246810</p>
+    </div>
   </div>
 </template>
 
@@ -73,6 +79,8 @@ export default {
           this.$toast.success('登陆成功')
           // vuex存储登录接口获取的token数据
           this.$store.commit('setUser', data.data)
+          // 登录成功 返回上一个页面
+          this.$router.back()
         } catch (err) {
           console.log('登陆失败', err)
           this.$toast.fail('登陆失败 手机号或验证码错误')
@@ -141,6 +149,13 @@ export default {
           font-size: 15px;
         }
       }
+    }
+    .account  {
+      font-size: 16px;
+      color: #ccc;
+      line-height: 25px;
+      text-align: center;
+      margin-top: 50px;
     }
   }
 </style>
