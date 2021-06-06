@@ -34,3 +34,14 @@ export const userInfoApi = () => {
     url: '/app/v1_0/user'
   })
 }
+
+/**
+ * 获取用户首页头部标签内容
+ */
+
+export const getUserTabsListApi = () => {
+  return request({
+    method: 'GET',
+    url: '/app/v1_0/user/channels'
+  })
+}
