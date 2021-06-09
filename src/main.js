@@ -9,6 +9,8 @@ import 'amfe-flexible'
 
 import '@/assets/icons'
 
+import '@/utils/handleDay'
+
 Vue.config.productionTip = false
 
 new Vue({

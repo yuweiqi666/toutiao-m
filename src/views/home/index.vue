@@ -19,7 +19,7 @@
     </van-nav-bar>
   </div>
   <!-- 顶部标签页 -->
-  <van-tabs>
+  <van-tabs color="#3296fa" swipeable duration="0.5" class="tabList">
     <van-tab
       :key="item.id"
       v-for="item in userTabsList"
@@ -74,6 +74,23 @@ export default {
       .toutiao-sousuo {
         color: #fff;
       }
+    }
+  }
+}
+
+/deep/.van-tabs__nav--complete {
+  padding-left: 0;
+  padding-right: 0 !important;
+  .van-tabs__line {
+    width: 16px;
+    top: 34px;
+  }
+  .van-tab {
+    border: .5px solid #edeff3;
+    width: 90px;
+    padding: 0;
+    &:nth-child(n + 1) {
+      margin-left: -1px;
     }
   }
 }
