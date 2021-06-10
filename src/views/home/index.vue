@@ -25,24 +25,51 @@
       v-for="item in userTabsList"
       :title='item.name'
     >
+      <!-- 文章列表组件 -->
       <article-list :articleId="item.id"></article-list>
     </van-tab>
+    <!-- van- tabs 右侧内容插槽 -->
+    <div slot="nav-right">
+      <!-- 汉堡标签 -->
+      <van-icon name="wap-nav" class="ham-icon" @click="handleOpenChannel" />
+    </div>
   </van-tabs>
+
+  <!-- 频道编辑弹出层 -->
+  <van-popup
+   round
+   closeable
+   close-icon-position="top-left"
+   v-model="popUpShow"
+   position="bottom"
+   :style="{ height: '100%' }"
+   :overlay="false"
+   get-container="body"
+   class="channel-edit-wrapper"
+  >
+    <!-- 我的频道编辑组件 -->
+    <edit-channels :channelList="userTabsList" :channels="channels"></edit-channels>
+  </van-popup>
+
 </div>
 </template>
 
 <script>
-import { getUserTabsListApi } from '@/http/user'
+import { getUserTabsListApi, getAllChannelsApi } from '@/http/user'
 import ArticleList from './components/articleList'
+import EditChannels from './components/editChannels.vue'
 export default {
   name: 'home',
   data () {
     return {
-      userTabsList: []
+      userTabsList: [],
+      popUpShow: false,
+      channels: []
     }
   },
   components: {
-    ArticleList
+    ArticleList,
+    EditChannels
   },
   methods: {
     async getUserTabsList () {
@@ -53,10 +80,27 @@ export default {
       } catch (err) {
         this.$toast.fail('获取标签信息失败')
       }
+    },
+
+    async getAllChannels () {
+      try {
+        const { data } = await getAllChannelsApi()
+        console.log('所有频道列表', data)
+        const { channels } = data.data
+        this.channels = channels
+      } catch (err) {
+        this.$toast.fail('获取所有频道信息失败')
+      }
+    },
+    handleOpenChannel () {
+      this.popUpShow = true
     }
   },
   activated () {
     this.getUserTabsList()
+  },
+  created () {
+    this.getAllChannels()
   }
 }
 </script>
@@ -93,6 +137,22 @@ export default {
       margin-left: -1px;
     }
   }
+}
+
+.ham-icon {
+  position: fixed;
+  height: 27px;
+  top: 52px;
+  vertical-align: middle;
+  right: 0;
+  color: #333;
+  border-left: 0.5px solid rgba($color: #ccc, $alpha: 0.3);
+  padding-left: 7px;
+  background-color: rgba($color: #fff, $alpha: 0.8)
+}
+
+/deep/.van-popup__close-icon {
+  color: black;
 }
 
 </style>

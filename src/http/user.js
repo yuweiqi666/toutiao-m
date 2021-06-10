@@ -45,3 +45,15 @@ export const getUserTabsListApi = () => {
     url: '/app/v1_0/user/channels'
   })
 }
+
+/**
+ *
+ * 获取所有的频道
+ */
+
+export const getAllChannelsApi = () => {
+  return request({
+    method: 'GET',
+    url: '/app/v1_0/channels'
+  })
+}
