@@ -57,3 +57,26 @@ export const getAllChannelsApi = () => {
     url: '/app/v1_0/channels'
   })
 }
+
+/**
+ * 新增用户频道
+ *
+ */
+
+export const addUserChannelApi = data => {
+  return request({
+    method: 'PATCH',
+    url: '/app/v1_0/user/channels',
+    data
+  })
+}
+
+/**
+ * 删除指定的频道
+ */
+export const deleteUserChannelApi = data => {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/user/channels/${data}`
+  })
+}

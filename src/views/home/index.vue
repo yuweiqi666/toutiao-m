@@ -19,7 +19,7 @@
     </van-nav-bar>
   </div>
   <!-- 顶部标签页 -->
-  <van-tabs color="#3296fa" swipeable duration="0.5" class="tabList">
+  <van-tabs v-model="active" color="#3296fa" swipeable duration="0.5" class="tabList">
     <van-tab
       :key="item.id"
       v-for="item in userTabsList"
@@ -48,24 +48,41 @@
    class="channel-edit-wrapper"
   >
     <!-- 我的频道编辑组件 -->
-    <edit-channels :channelList="userTabsList" :channels="channels"></edit-channels>
+    <edit-channels
+      :channelList="userTabsList"
+      :activeChannel="active"
+      @addChannel="addUserChannel"
+      @deleteChannel="deleteUserChannel"
+      @closePopUp="popUpShow = false"
+      @clickChannel="active = $event"
+      @reduceActive='active--'
+    >
+    </edit-channels>
   </van-popup>
 
 </div>
 </template>
 
 <script>
-import { getUserTabsListApi, getAllChannelsApi } from '@/http/user'
+import { getUserTabsListApi, addUserChannelApi, deleteUserChannelApi } from '@/http/user'
 import ArticleList from './components/articleList'
 import EditChannels from './components/editChannels.vue'
+import { getItem, setItem } from '@/utils/storage.js'
+import { mapState } from 'vuex'
+
 export default {
   name: 'home',
   data () {
     return {
       userTabsList: [],
       popUpShow: false,
-      channels: []
+      // 选中标签的索引
+      active: 0
     }
+  },
+  computed: {
+    ...mapState(['user'])
+
   },
   components: {
     ArticleList,
@@ -81,27 +98,71 @@ export default {
         this.$toast.fail('获取标签信息失败')
       }
     },
-
-    async getAllChannels () {
-      try {
-        const { data } = await getAllChannelsApi()
-        console.log('所有频道列表', data)
-        const { channels } = data.data
-        this.channels = channels
-      } catch (err) {
-        this.$toast.fail('获取所有频道信息失败')
-      }
-    },
     handleOpenChannel () {
       this.popUpShow = true
+    },
+    async addUserChannel (channel) {
+      console.log('data', channel)
+      this.userTabsList.push(channel)
+      // 数据持久化 判断用户有没有登录
+      /**
+       * 如果用户没有登录 数据存储在本地
+       * 如果用户登录了  调接口 数据出处在后台服务器
+       */
+      if (this.user) {
+        // 调接口
+        try {
+          await addUserChannelApi({
+            channels: [
+              {
+                id: channel.id,
+                seq: this.userTabsList.length
+              }
+            ]
+          })
+        } catch (err) {
+          this.$toast.fail('添加失败')
+        }
+      } else {
+        // 本地存储localstorage
+        setItem('userTabsList', this.userTabsList)
+      }
+    },
+    async deleteUserChannel (userChannelIndex, channelId) {
+      console.log('delete', userChannelIndex, channelId)
+      this.userTabsList.splice(userChannelIndex, 1)
+      // 删除频道数据持久化
+      if (this.user) {
+        // 登录状态下 调接口 删除指定的频道
+        try {
+          await deleteUserChannelApi(channelId)
+        } catch (err) {
+          this.$toast.fail('删除频道失败')
+        }
+      } else {
+        setItem('userTabsList', this.userTabsList)
+      }
     }
   },
   activated () {
-    this.getUserTabsList()
-  },
-  created () {
-    this.getAllChannels()
+    // 先判断用户有没有登录
+    if (this.user) {
+      this.getUserTabsList()
+    } else {
+      if (getItem('userTabsList')) {
+      // 在判断本地存储有没有用户频道数据
+        this.userTabsList = getItem('userTabsList')
+      } else {
+        /**
+         * 没有登录同时本地存储没有频道数据 那么还是调这个接口
+         * 这个接口在没有登录状态下调用获取的是默认的频道列表（通过有没有传 token来判断）
+         *
+         */
+        this.getUserTabsList()
+      }
+    }
   }
+
 }
 </script>
 
