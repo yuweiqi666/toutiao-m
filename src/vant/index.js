@@ -20,7 +20,8 @@ import {
   PullRefresh,
   List,
   Popup,
-  Icon
+  Icon,
+  Search
 } from 'vant'
 
 Vue.use(Button)
@@ -42,3 +43,4 @@ Vue.use(PullRefresh)
 Vue.use(List)
 Vue.use(Popup)
 Vue.use(Icon)
+Vue.use(Search)

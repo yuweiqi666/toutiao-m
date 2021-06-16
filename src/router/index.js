@@ -38,12 +38,18 @@ const routes = [
         name: 'mine',
         component: () => import('../views/mine')
       }
+
     ]
   },
   {
     path: '/chat',
     name: 'chat',
     component: () => import('../views/chat')
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: () => import('../views/search')
   }
 
 ]

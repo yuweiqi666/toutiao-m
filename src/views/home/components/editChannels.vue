@@ -149,6 +149,7 @@ export default {
         /deep/.van-grid-item__content {
           position: relative;
           background-color: #f4f5f6;
+          padding: 0;
           .channelText {
             font-size: 10px;
             color: #222;

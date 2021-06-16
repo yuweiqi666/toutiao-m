@@ -12,6 +12,7 @@
           type="default"
           size="small"
           block
+          to="/search"
         >
         搜索
         </van-button>
