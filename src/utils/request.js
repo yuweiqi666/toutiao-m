@@ -13,7 +13,6 @@ const request = axios.create({
 
 // 请求拦截器
 request.interceptors.request.use((config) => {
-  console.log(config)
   // store的user中存放了token信息
   const { user } = store.state
   // 通过user判断用户是否登录

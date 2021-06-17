@@ -6,33 +6,52 @@
       finished-text="没有更多了"
       @load="onLoad"
     >
-      <van-cell v-for="item in searchResuleList" :key="item" :title="item" />
+      <van-cell v-for="item in searchResultList" :key="item.art_id" :title="item.title" />
     </van-list>
   </div>
 </template>
 
 <script>
+import { getSearchResultApi } from '@/http/search'
 export default {
   name: 'SearchResult',
   data () {
     return {
       finished: false,
       loading: false,
-      searchResuleList: []
+      searchResultList: [],
+      page: 1
+    }
+  },
+  props: {
+    searchValue: {
+      type: String
     }
   },
   methods: {
-    onLoad () {
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.searchResuleList.push(this.searchResuleList.length + 1)
-        }
+    async onLoad () {
+      try {
+        const { data } = await getSearchResultApi({
+          q: this.searchValue,
+          page: this.page
+        })
+
+        const { results } = data.data
+
+        this.searchResultList.push(...results)
+
+        console.log('this.searchResultList', this.searchResultList)
+
         this.loading = false
 
-        if (this.searchResuleList.length >= 40) {
+        if (results.length === 0) {
           this.finished = true
+        } else {
+          this.page++
         }
-      }, 1000)
+      } catch (err) {
+        console.log('获取搜索结果失败', err)
+      }
     }
   }
 }

@@ -7,14 +7,15 @@
         background="#3296fa"
         placeholder="请输入搜索关键词"
         show-action
-        @search="onSearch"
+        @search="onSearch(searchValue)"
         @cancel="$router.back()"
+        @focus="onFocus"
       />
     </form>
     <!-- 搜索结果 首先判断isResultShow 控制搜索结果的显示与隐藏-->
-    <search-result v-if="isResultShow"></search-result>
+    <search-result v-if="isResultShow" :searchValue='searchValue'></search-result>
     <!-- 搜索联想  通过searchValue有没有数据来控制显示搜索联想还是显示历史记录-->
-    <search-suggestion v-else-if="searchValue" :searchValue="searchValue"></search-suggestion>
+    <search-suggestion v-else-if="searchValue" :searchValue="searchValue" @handleSuggestionSearch="onSearch($event)"></search-suggestion>
     <!-- 历史记录 -->
     <search-history v-else></search-history>
   </div>
@@ -29,7 +30,8 @@ export default {
   data () {
     return {
       searchValue: '',
-      isResultShow: false // 控制搜索结果的显示与隐藏
+      isResultShow: false, // 控制搜索结果的显示与隐藏
+      searchResult: []
     }
   },
   components: {
@@ -39,13 +41,17 @@ export default {
   },
   methods: {
     // 点击搜索按钮是触发
-    onSearch () {
+    async onSearch (value) {
+      this.searchValue = value
+
       this.isResultShow = true
     },
     // 输入框获取焦点时触发
     onFocus () {
       // 获取焦点的时候判断一下isResultShow  如果是true说明触发了搜索事件  需要把它设置为false
       this.isResultShow = this.isResultShow && !this.isResultShow
+
+      console.log(this.isResultShow)
     }
   }
 }
