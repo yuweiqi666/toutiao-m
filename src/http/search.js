@@ -25,3 +25,11 @@ export const getSearchHistoryApi = () => {
     url: '/app/v1_0/search/histories'
   })
 }
+
+// 删除所有的搜索历史
+export const deleteAllSearchHistoryApi = () => {
+  return request({
+    method: 'DELETE',
+    url: '/app/v1_0/search/histories'
+  })
+}

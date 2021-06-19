@@ -55,6 +55,7 @@ export default {
       handler: debounce(function (n, o) {
         this.getResultSuggestion(n)
       }, 500, { leading: true }),
+      // 使用immediate 是因为搜索联想（默认隐藏）组件初始化（搜索联想组件显示的时候 父组件将searchValue数据传给搜索联想组件时）就要立即触发handler回调函数
       immediate: true
     }
   }
