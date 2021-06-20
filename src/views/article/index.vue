@@ -1,10 +1,12 @@
 <template>
   <div class="article-detail">
+    <!-- 文章头部 -->
     <van-nav-bar
       title="文章详情"
       left-arrow
       @click-left="$router.back()"
     />
+    <!-- 文章详情区域 -->
     <div class="main">
       <!-- 文章标题 -->
       <div class="title">{{ detailData.title }}</div>
@@ -60,18 +62,29 @@
         v-html="detailData.content"
       >
       </div>
+      <!-- 文章评论区域 -->
+      <article-recomments
+        :artId='articleId'
+      >
+      </article-recomments>
     </div>
+
+    <!-- 文章底部固定栏-->
     <div class="article-bottom">
       <van-button round size="mini">写评论</van-button>
-      <van-icon name="other-pay" color="#777"/>
+      <van-icon
+        name="other-pay"
+        color="#777"
+        :badge="detailData.recomments ? detailData.recomments.length : 0"
+      />
       <van-icon
         :name="detailData.attitude === 1 ? 'good-job' : 'good-job-o'"
-        color="#777"
+        :color="detailData.attitude === 1 ? '#e22829' : '#777'"
         @click="handleLikeArticle"
       />
       <van-icon
         :name="detailData.is_collected ? 'star':'star-o'"
-        color="#777"
+        :color="detailData.is_collected ? '#e22829' : '#777'"
         @click="handleCollectArticle"
       />
       <van-icon name="share-o" color="#777" />
@@ -88,6 +101,7 @@ import {
   cancelCollectArticleApi
 } from '@/http/article'
 import { cancelFollowAutorApi, followAutorApi } from '@/http/user'
+import ArticleRecomments from './components/articleRecomments.vue'
 export default {
   name: 'ArticleDetail',
   props: {
@@ -101,8 +115,12 @@ export default {
       isLoading: false // 是否显示按钮的加载状态
     }
   },
+  components: {
+    ArticleRecomments
+  },
   async created () {
     try {
+      // 获取文章详情
       const { data } = await getArticleDetailApi(this.articleId)
       console.log('文章详情数据', data)
       this.detailData = data.data
@@ -152,6 +170,7 @@ export default {
           target: this.detailData.aut_id
         })
         this.detailData.is_followed = !this.detailData.is_followed
+        this.$toast.success('关注成功')
       } catch (err) {
         this.$toast.fail('关注失败')
       }
@@ -163,6 +182,7 @@ export default {
       try {
         await cancelFollowAutorApi(this.detailData.aut_id)
         this.detailData.is_followed = !this.detailData.is_followed
+        this.$toast.success('取消关注')
       } catch (err) {
         this.$toast.fail('取消关注失败')
       }
@@ -175,11 +195,13 @@ export default {
           target: this.detailData.art_id
         })
         this.detailData.attitude = 0
+        this.$toast.success('取消点赞')
       } else {
         await addLikeApi({
           target: this.detailData.art_id
         })
         this.detailData.attitude = 1
+        this.$toast.success('点赞成功')
       }
     },
     // 收藏（取消收藏）文章
@@ -187,11 +209,13 @@ export default {
       if (this.detailData.is_collected) {
         await cancelCollectArticleApi(this.detailData.art_id)
         this.detailData.is_collected = false
+        this.$toast.success('取消收藏')
       } else {
         await collectArticleApi({
           target: this.detailData.art_id
         })
         this.detailData.is_collected = true
+        this.$toast.success('收藏成功')
       }
     }
   }
@@ -205,9 +229,9 @@ export default {
       position: fixed;
       width: 100%;
       top: 45px;
-      bottom: 0;
+      bottom: 45px;
       overflow: auto;
-      padding: 22px 12px 0;
+      padding: 22px 12px 5px 12px;
       box-sizing: border-box;
       background-color: #fff;
       .title {
@@ -252,7 +276,9 @@ export default {
         }
       }
       .content {
-
+        border-bottom: 1px solid rgba($color: #ccc, $alpha: 0.3);
+        padding-bottom: 65px;
+        margin-bottom: 25px;
       }
     }
     .article-bottom {

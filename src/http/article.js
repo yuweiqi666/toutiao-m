@@ -66,3 +66,15 @@ export const cancelCollectArticleApi = target => {
     url: `/app/v1_0/article/collections/${target}`
   })
 }
+
+/**
+ * 获取文章评论或评论回复
+ */
+
+export const getArticleRecommentsApi = data => {
+  return request({
+    method: 'GET',
+    url: '/app/v1_0/comments',
+    params: data
+  })
+}
