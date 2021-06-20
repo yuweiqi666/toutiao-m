@@ -6,7 +6,12 @@
       finished-text="没有更多了"
       @load="onLoad"
     >
-      <van-cell v-for="item in searchResultList" :key="item.art_id" :title="item.title" />
+      <van-cell
+        v-for="item in searchResultList"
+        :key="+item.art_id"
+        :title="item.title"
+        @click="handleArticleDetail(item.art_id)"
+      />
     </van-list>
   </div>
 </template>
@@ -52,6 +57,16 @@ export default {
       } catch (err) {
         console.log('获取搜索结果失败', err)
       }
+    },
+    // 点击单个搜索结果进入文章详情
+    handleArticleDetail (artId) {
+      console.log('跳转详情页', artId)
+      this.$router.push({
+        name: 'articleDetail',
+        params: {
+          articleId: artId
+        }
+      })
     }
   }
 }

@@ -80,3 +80,25 @@ export const deleteUserChannelApi = data => {
     url: `/app/v1_0/user/channels/${data}`
   })
 }
+
+/**
+ * 关注用户
+ */
+export const followAutorApi = data => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/user/followings',
+    data
+  })
+}
+
+/**
+ * 取消关注用户
+ */
+
+export const cancelFollowAutorApi = target => {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/user/followings/${target}`
+  })
+}

@@ -50,6 +50,14 @@ const routes = [
     path: '/search',
     name: 'search',
     component: () => import('../views/search')
+  },
+  {
+    // 动态路由
+    path: '/articleDetail/:articleId',
+    name: 'articleDetail',
+    component: () => import('../views/article'),
+    // 将动态路由参数映射到 props 中
+    props: true
   }
 
 ]

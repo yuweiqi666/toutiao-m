@@ -1,5 +1,11 @@
 // 全局样式
 
+// 初始化html body 高度
+html,
+body {
+  height: 100%;
+}
+
 // 页面底色
 body {
   background-color: #f5f7f9;

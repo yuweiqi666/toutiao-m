@@ -14,8 +14,9 @@
       <!-- 单个文章展示组件 -->
         <article-item
          v-for="item in articleList"
-         :key="item.art_id"
+         :key="+item.art_id"
          :articleData="item"
+         @clickDetail="clickArticleDetail(item.art_id)"
         ></article-item>
       </van-list>
     </van-pull-refresh>
@@ -50,9 +51,6 @@ export default {
       required: true
     }
   },
-  created () {
-
-  },
   methods: {
     async getArticleList () {
       const { data } = await getArticleListApi({
@@ -60,9 +58,7 @@ export default {
         timestamp: this.timestamp ? this.timestamp : +new Date(),
         with_top: 1
       })
-      console.log('data', data)
       const { results, pre_timestamp: preTimesTamp } = data.data
-      console.log('fetchArticleList', results)
       this.articleList.push(...results)
       // loading设置为false表示本次的加载状态的结束 依据这个来判断是否需要进行下一次的加载 否则永远停在这里
       this.loading = false
@@ -111,6 +107,16 @@ export default {
      */
       // 接口请求列表数据
       this.getArticleList()
+    },
+    // 点击文章跳转详情页
+    clickArticleDetail (artId) {
+      console.log('跳转详情页', artId)
+      this.$router.push({
+        name: 'articleDetail',
+        params: {
+          articleId: artId
+        }
+      })
     }
   }
 }

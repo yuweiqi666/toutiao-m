@@ -21,8 +21,12 @@ import {
   List,
   Popup,
   Icon,
-  Search
+  Search,
+  ImagePreview
 } from 'vant'
+
+// 将图片预览组件注册到全局方法
+Vue.prototype.$imagePreview = ImagePreview
 
 Vue.use(Button)
 Vue.use(Tabbar)

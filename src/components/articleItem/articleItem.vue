@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-cell>
+    <van-cell @click="$emit('clickDetail')">
       <div slot="title">
         <div class="title">{{ articleData.title }}</div>
         <div v-if="articleData.cover.type == 3">

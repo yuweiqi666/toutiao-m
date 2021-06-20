@@ -145,7 +145,8 @@ export default {
       }
     }
   },
-  activated () {
+  created () {
+    console.log('首页tab')
     // 先判断用户有没有登录
     if (this.user) {
       this.getUserTabsList()

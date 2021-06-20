@@ -4,7 +4,10 @@
 
 <script>
 export default {
-  name: 'qa'
+  name: 'qa',
+  created () {
+    console.log('问答')
+  }
 }
 </script>
 

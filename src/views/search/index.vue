@@ -13,9 +13,15 @@
       />
     </form>
     <!-- 搜索结果 首先判断isResultShow 控制搜索结果的显示与隐藏-->
-    <search-result v-if="isResultShow" :searchValue='searchValue'></search-result>
+    <search-result v-if="isResultShow" :searchValue='searchValue'>
+    </search-result>
     <!-- 搜索联想  通过searchValue有没有数据来控制显示搜索联想还是显示历史记录-->
-    <search-suggestion v-else-if="searchValue" :searchValue="searchValue" @handleSuggestionSearch="onSearch($event)"></search-suggestion>
+    <search-suggestion
+      v-else-if="searchValue"
+      :searchValue="searchValue"
+      @handleSuggestionSearch="onSearch($event)"
+    >
+    </search-suggestion>
     <!-- 历史记录 -->
     <search-history
       v-else
