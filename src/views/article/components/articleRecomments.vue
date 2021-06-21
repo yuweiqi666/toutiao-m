@@ -36,6 +36,7 @@ export default {
     artId: {
       type: [Number, String, Object]
     }
+
   },
   components: {
     RecommentItem
@@ -52,7 +53,9 @@ export default {
 
       console.log('文章评论', data.data)
 
-      const { results, end_id: endId } = data.data
+      const { results, end_id: endId, total_count: totalCount } = data.data
+
+      this.$emit('handleTotalCount', totalCount)
 
       this.recommemtsList = [...this.recommemtsList, ...results]
 

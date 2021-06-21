@@ -34,7 +34,11 @@
       </div>
       <!-- 右侧点赞图标 -->
       <div slot="right-icon">
-        <van-icon name="good-job-o" /> {{recommentItem.like_count}}
+        <van-icon
+          :name="recommentItem.is_liking ? 'good-job': 'good-job-o'"
+          :color="recommentItem.is_liking ? '#e22829' : '#777'"
+          @click="handleLikeIcon"
+        /> {{recommentItem.like_count}}
       </div>
 
     </van-cell>
@@ -42,11 +46,35 @@
 </template>
 
 <script>
+import { addRecommentLikeApi, cancelRecommentLikeApi } from '@/http/article'
 export default {
   name: 'RecommentItem',
   props: {
     recommentItem: {
       type: Object
+    }
+  },
+  methods: {
+    async handleLikeIcon () {
+      console.log('评论id', this.recommentItem.com_id + '')
+      try {
+        if (this.recommentItem.is_liking) {
+        // 取消对评论的点赞
+          await cancelRecommentLikeApi(this.recommentItem.com_id + '')
+          this.$toast.success('取消点赞')
+          this.recommentItem.like_count--
+        } else {
+        // 对评论点赞
+          await addRecommentLikeApi({
+            target: this.recommentItem.com_id + ''
+          })
+          this.$toast.success('点赞成功')
+          this.recommentItem.like_count++
+        }
+        this.recommentItem.is_liking = !this.recommentItem.is_liking
+      } catch (err) {
+        this.$toast.success('请求失败')
+      }
     }
   }
 }

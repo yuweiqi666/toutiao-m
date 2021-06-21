@@ -94,8 +94,6 @@ export default {
     }
   },
   created () {
-  },
-  activated () {
     if (this.user) {
       this.getCurrentUserInfo()
     }

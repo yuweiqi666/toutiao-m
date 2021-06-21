@@ -78,3 +78,24 @@ export const getArticleRecommentsApi = data => {
     params: data
   })
 }
+
+/**
+ * 对评论或评论回复点赞
+ */
+export const addRecommentLikeApi = data => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/comment/likings',
+    data
+  })
+}
+
+/**
+ * 取消评论或评论回复点赞
+ */
+export const cancelRecommentLikeApi = target => {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/comment/likings/${target}`
+  })
+}

@@ -40,7 +40,6 @@
             :loading="isLoading"
             loading-type="spinner"
           >
-            已关注
           </van-button>
           <van-button
             v-else
@@ -65,17 +64,18 @@
       <!-- 文章评论区域 -->
       <article-recomments
         :artId='articleId'
+        @handleTotalCount='recommandTotal = $event'
       >
       </article-recomments>
     </div>
 
     <!-- 文章底部固定栏-->
     <div class="article-bottom">
-      <van-button round size="mini">写评论</van-button>
+      <van-button round size="mini" @click="handleWriteRecomment">写评论</van-button>
       <van-icon
         name="other-pay"
         color="#777"
-        :badge="detailData.recomments ? detailData.recomments.length : 0"
+        :badge="recommandTotal"
       />
       <van-icon
         :name="detailData.attitude === 1 ? 'good-job' : 'good-job-o'"
@@ -89,6 +89,19 @@
       />
       <van-icon name="share-o" color="#777" />
     </div>
+    <!-- 发布评论弹出层 -->
+    <van-popup
+      get-container="body"
+      v-model="recommentShow"
+      position="bottom"
+      :style="{ height: '15%' }"
+    >
+      <pub-field
+        :articleId='articleId'
+        @pubSuccess='handlePubSuccess'
+      >
+      </pub-field>
+    </van-popup>
   </div>
 </template>
 
@@ -102,6 +115,7 @@ import {
 } from '@/http/article'
 import { cancelFollowAutorApi, followAutorApi } from '@/http/user'
 import ArticleRecomments from './components/articleRecomments.vue'
+import PubField from './components/pubField.vue'
 export default {
   name: 'ArticleDetail',
   props: {
@@ -112,11 +126,15 @@ export default {
   data () {
     return {
       detailData: {},
-      isLoading: false // 是否显示按钮的加载状态
+      isLoading: false, // 是否显示按钮的加载状态
+      recommentShow: false, // 写评论弹出层的显示与隐藏
+      content: '', // 评论内容
+      recommandTotal: 0
     }
   },
   components: {
-    ArticleRecomments
+    ArticleRecomments,
+    PubField
   },
   async created () {
     try {
@@ -217,6 +235,25 @@ export default {
         this.detailData.is_collected = true
         this.$toast.success('收藏成功')
       }
+    },
+    // 点击写评论按钮出现弹出层
+    handleWriteRecomment () {
+      this.recommentShow = true
+    },
+    // 评论发布成功关闭弹出层
+    handlePubSuccess (recommentData) {
+      this.recommentShow = false
+      console.log('recommentData', recommentData)
+      // this.commentList.unshift({
+      //   aut_name: '测试账号',
+      //   aut_photo: 'http://toutiao-img.itheima.net/FjK7yPGj0B_JedXxHjPHtV8tsoNL',
+      //   content: recommentData,
+      //   pubdate: '2021-6-21',
+      //   reply_count: 80,
+      //   like_count: 100,
+      //   is_liking: false
+
+      // })
     }
   }
 }
@@ -302,4 +339,7 @@ export default {
       }
     }
   }
+  // .van-popup {
+
+  // }
 </style>
