@@ -114,7 +114,7 @@ export default {
       this.$router.push({
         name: 'articleDetail',
         params: {
-          articleId: artId
+          articleId: artId + ''
         }
       })
     }

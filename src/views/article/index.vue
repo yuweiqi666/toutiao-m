@@ -63,6 +63,7 @@
       </div>
       <!-- 文章评论区域 -->
       <article-recomments
+        :commentList = 'commentList'
         :artId='articleId'
         @handleTotalCount='recommandTotal = $event'
       >
@@ -99,6 +100,7 @@
       <pub-field
         :articleId='articleId'
         @pubSuccess='handlePubSuccess'
+         @addCommentCount='recommandTotal++'
       >
       </pub-field>
     </van-popup>
@@ -129,6 +131,7 @@ export default {
       isLoading: false, // 是否显示按钮的加载状态
       recommentShow: false, // 写评论弹出层的显示与隐藏
       content: '', // 评论内容
+      commentList: [],
       recommandTotal: 0
     }
   },
@@ -244,16 +247,7 @@ export default {
     handlePubSuccess (recommentData) {
       this.recommentShow = false
       console.log('recommentData', recommentData)
-      // this.commentList.unshift({
-      //   aut_name: '测试账号',
-      //   aut_photo: 'http://toutiao-img.itheima.net/FjK7yPGj0B_JedXxHjPHtV8tsoNL',
-      //   content: recommentData,
-      //   pubdate: '2021-6-21',
-      //   reply_count: 80,
-      //   like_count: 100,
-      //   is_liking: false
-
-      // })
+      this.commentList.unshift(recommentData)
     }
   }
 }

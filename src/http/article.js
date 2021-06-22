@@ -99,3 +99,14 @@ export const cancelRecommentLikeApi = target => {
     url: `/app/v1_0/comment/likings/${target}`
   })
 }
+
+/**
+ * 发表评论 或发表对评论的回复
+ */
+export const pubRecommentApi = data => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/comments',
+    data
+  })
+}

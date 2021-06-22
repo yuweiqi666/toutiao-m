@@ -21,11 +21,12 @@
         </div>
         <div class="recomment-bottom">
           <div class="recomment-date">{{recommentItem.pubdate}}</div>
-          <div class="recomment-reply">
+          <div class="recomment-reply" v-if="showReplyBtnFlag">
             <van-button
               color="#f4f5f6"
               size="mini"
               round
+              @click="handleClickReply"
             >
             {{ recommentItem.reply_count }} 回复
             </van-button>
@@ -52,6 +53,9 @@ export default {
   props: {
     recommentItem: {
       type: Object
+    },
+    showReplyBtnFlag: {
+      type: Boolean
     }
   },
   methods: {
@@ -75,6 +79,11 @@ export default {
       } catch (err) {
         this.$toast.success('请求失败')
       }
+    },
+    // 点击回复按钮
+    handleClickReply () {
+      console.log('单个评论的数据', this.recommentItem)
+      this.$emit('clickReplyRecomment', this.recommentItem)
     }
   }
 }
