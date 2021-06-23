@@ -2,7 +2,7 @@
 <div class="reply-comment">
   <!-- 评论回复标题 -->
   <van-nav-bar
-    :title="replyTitleCount + '条回复'"
+    :title="replyRecommentItem.reply_count + '条回复'"
   />
   <!-- 当前需要回复的评论 -->
   <recomment-item
@@ -10,23 +10,15 @@
     :showReplyBtnFlag='false'
   >
   </recomment-item>
-  <!-- 对当前评论的回复 -->
+  <!-- 对当前评论的回复列表 -->
   <div class="reply-wrapper">
-    <p class="title">全部评论</p>
-    <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="onLoad"
+    <article-recomments
+      @getClickReplyRecomment="writeComment"
+      :commentList = 'replyRecomment'
+      :artId='artId'
+      type='c'
     >
-      <recomment-item
-        v-for="(recommentItem, index) in replyRecomment"
-        :key='index'
-        :recommentItem='recommentItem'
-        :showReplyBtnFlag='true'
-      >
-      </recomment-item>
-    </van-list>
+    </article-recomments>
   </div>
   <!-- 底部评论按钮 -->
   <div class="bottom-btn">
@@ -44,10 +36,12 @@
     :style="{ height: '15%' }"
   >
     <pub-field
+      v-if="recommentShow"
+      :currentReplyCommentR='currentReplyCommentR'
       :articleId='artId'
       :comId='replyRecommentItem.com_id'
       @pubSuccess='handlePubSuccess'
-      @addCommentCount='recommandTotal++'
+      @addCommentCount='replyRecommentItem.reply_count++'
     >
     </pub-field>
   </van-popup>
@@ -57,20 +51,18 @@
 
 <script>
 import RecommentItem from './recommentItem.vue'
-import { getArticleRecommentsApi } from '@/http/article'
+import ArticleRecomments from './articleRecomments.vue'
+// import { getArticleRecommentsApi } from '@/http/article'
 import PubField from './pubField.vue'
 export default {
   name: 'ReplyComment',
   data () {
     return {
-      // 回复数量
-      replyTitleCount: this.replyRecommentItem.reply_count,
-      loading: false,
-      finished: false,
       offset: null,
       limit: 10,
       replyRecomment: [],
-      recommentShow: false
+      recommentShow: false,
+      currentReplyCommentR: undefined
     }
   },
   props: {
@@ -83,28 +75,30 @@ export default {
   },
   components: {
     RecommentItem,
-    PubField
+    PubField,
+    ArticleRecomments
   },
   methods: {
-    async onLoad () {
-      const { data } = await getArticleRecommentsApi({
-        type: 'c',
-        source: this.replyRecommentItem.com_id + '',
-        offset: this.offset,
-        limit: this.limit
-      })
-      const { results, end_id: endId } = data.data
-      console.log('回复评论123', results)
-      this.replyRecomment.push(...results)
-      this.loading = false
-      if (results.length) {
-        this.offset = endId
-      } else {
-        this.finished = true
-      }
-    },
-    writeComment () {
-      console.log('写评论')
+    // async onLoad () {
+    //   const { data } = await getArticleRecommentsApi({
+    //     type: 'c',
+    //     source: this.replyRecommentItem.com_id + '',
+    //     offset: this.offset,
+    //     limit: this.limit
+    //   })
+    //   const { results, end_id: endId } = data.data
+    //   console.log('回复评论123', results)
+    //   this.replyRecomment.push(...results)
+    //   this.loading = false
+    //   if (results.length) {
+    //     this.offset = endId
+    //   } else {
+    //     this.finished = true
+    //   }
+    // },
+    writeComment (value) {
+      console.log(value)
+      this.currentReplyCommentR = value.aut_name ? value : undefined
       this.recommentShow = true
     },
     handlePubSuccess (recommentData) {
@@ -113,6 +107,11 @@ export default {
       this.replyRecomment.unshift(recommentData)
       this.replyTitleCount++
     }
+    // // 回复评论列表中点击回复按钮
+    // getClickReplyRecomment () {
+    //   console.log('回复评论列表中点击回复按钮')
+    //   this.$emit('getBottomRecomment')
+    // }
   }
 }
 </script>
@@ -134,11 +133,6 @@ export default {
     width: 100%;
     padding: 0 10px;
     box-sizing: border-box;
-    .title {
-      padding-bottom: 10px;
-      font-size: 14px;
-      border-bottom: 0.5px solid rgba($color: #ccc, $alpha: 0.5);
-    }
   }
   .bottom-btn {
     position: fixed;

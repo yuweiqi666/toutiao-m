@@ -38,7 +38,7 @@
 <script>
 import { getArticleRecommentsApi } from '@/http/article'
 import RecommentItem from './recommentItem.vue'
-import ReplyComment from './replyComment.vue'
+
 export default {
   name: 'ArticleRecomments',
   data () {
@@ -58,17 +58,21 @@ export default {
     },
     commentList: {
       type: Array
+    },
+    type: {
+      type: String,
+      default: 'a'
     }
   },
   components: {
-    RecommentItem,
-    ReplyComment
+    RecommentItem
   },
   methods: {
     async onLoad () {
+      console.log(123)
       // 获取文章评论
       const { data } = await getArticleRecommentsApi({
-        type: 'a',
+        type: this.type,
         source: this.artId,
         offset: this.offset,
         limit: this.limit
@@ -87,12 +91,12 @@ export default {
       if (results.length) {
         this.offset = endId
       } else {
+        console.log('finished-------------------')
         this.finished = true
       }
     },
     handleClickReplyRecomment (value) {
-      this.replyRecommentItem = value
-      this.replyRecommentShow = true
+      this.$emit('getClickReplyRecomment', value)
     }
 
   }

@@ -17,7 +17,7 @@
         </div>
         <!-- 右侧按钮插槽 -->
         <div slot="right-icon">
-          <van-button round size="small">编辑资料</van-button>
+          <van-button round size="small" @click="editData">编辑资料</van-button>
         </div>
       </van-cell>
       <!-- data数据 -->
@@ -90,6 +90,12 @@ export default {
       }).then(() => {
         // on close
         this.$store.commit('setUser', null)
+      })
+    },
+    editData () {
+      console.log(123)
+      this.$router.push({
+        name: 'editData'
       })
     }
   },

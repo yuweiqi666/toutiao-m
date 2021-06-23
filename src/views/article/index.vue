@@ -40,6 +40,7 @@
             :loading="isLoading"
             loading-type="spinner"
           >
+          已关注
           </van-button>
           <van-button
             v-else
@@ -66,6 +67,7 @@
         :commentList = 'commentList'
         :artId='articleId'
         @handleTotalCount='recommandTotal = $event'
+        @getClickReplyRecomment='getClickReplyRecomment'
       >
       </article-recomments>
     </div>
@@ -100,9 +102,25 @@
       <pub-field
         :articleId='articleId'
         @pubSuccess='handlePubSuccess'
-         @addCommentCount='recommandTotal++'
+        @addCommentCount='recommandTotal++'
       >
       </pub-field>
+    </van-popup>
+    <!-- 评论回复弹出层 -->
+    <van-popup
+      get-container="body"
+      v-model="replyRecommentShow"
+      position="bottom"
+      :style="{ height: '80%' }"
+    >
+      <!-- 评论回复模块组件封装 -->
+      <reply-comment
+        :key="`replyRecomment_${+new Date()}`"
+        :replyRecommentItem='replyRecommentItem'
+        :artId='articleId'
+        @getBottomRecomment='handleWriteRecomment'
+      >
+      </reply-comment>
     </van-popup>
   </div>
 </template>
@@ -118,6 +136,7 @@ import {
 import { cancelFollowAutorApi, followAutorApi } from '@/http/user'
 import ArticleRecomments from './components/articleRecomments.vue'
 import PubField from './components/pubField.vue'
+import ReplyComment from './components/replyComment.vue'
 export default {
   name: 'ArticleDetail',
   props: {
@@ -131,12 +150,16 @@ export default {
       isLoading: false, // 是否显示按钮的加载状态
       recommentShow: false, // 写评论弹出层的显示与隐藏
       content: '', // 评论内容
-      commentList: [],
-      recommandTotal: 0
+      commentList: [], // 评论列表数据
+      recommandTotal: 0,
+      replyRecommentShow: false,
+      replyRecommentItem: {} // 点击回复弹出层显示的单个评论
+      // replyRecomment: [] // 评论回复列表数据
     }
   },
   components: {
     ArticleRecomments,
+    ReplyComment,
     PubField
   },
   async created () {
@@ -248,6 +271,10 @@ export default {
       this.recommentShow = false
       console.log('recommentData', recommentData)
       this.commentList.unshift(recommentData)
+    },
+    getClickReplyRecomment (value) {
+      this.replyRecommentItem = value
+      this.replyRecommentShow = true
     }
   }
 }

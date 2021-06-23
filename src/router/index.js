@@ -58,6 +58,11 @@ const routes = [
     component: () => import('../views/article'),
     // 将动态路由参数映射到 props 中
     props: true
+  },
+  {
+    path: '/editdata',
+    name: 'editData',
+    component: () => import('../views/editData')
   }
 
 ]

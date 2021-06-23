@@ -82,7 +82,6 @@ export default {
     },
     // 点击回复按钮
     handleClickReply () {
-      console.log('单个评论的数据', this.recommentItem)
       this.$emit('clickReplyRecomment', this.recommentItem)
     }
   }

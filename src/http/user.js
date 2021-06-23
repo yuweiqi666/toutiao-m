@@ -102,3 +102,13 @@ export const cancelFollowAutorApi = target => {
     url: `/app/v1_0/user/followings/${target}`
   })
 }
+
+/**
+ * 获取用户个人信息
+ */
+export const getUserProfitApi = () => {
+  return request({
+    method: 'GET',
+    url: '/app/v1_0/user/profile'
+  })
+}

@@ -7,7 +7,7 @@
       autosize
       show-word-limit
       type="textarea"
-      placeholder="优质评论将会被优先展示"
+      :placeholder="recommentPlaceholder"
     />
     <span class="pub-text" @click="handlePub">发布</span>
   </div>
@@ -19,18 +19,21 @@ export default {
   name: 'PubField',
   data () {
     return {
-      content: ''
+      content: '',
+      recommentPlaceholder: this.currentReplyCommentR ? '回复 ' + this.currentReplyCommentR.aut_name : '优质评论将被优先展示'
     }
   },
   props: {
     articleId: [Number, String, Object],
-    comId: [Number, String, Object]
+    comId: [Number, String, Object],
+    currentReplyCommentR: {
+      type: Object
+    }
 
   },
   methods: {
     // 对文章发布评论
     async handlePub () {
-      console.log('this.articleId', this.articleId)
       if (this.content) {
         this.$toast.loading({
           duration: 0, // 持续展示 toast
@@ -40,7 +43,7 @@ export default {
         try {
           const { data } = await pubRecommentApi({
             target: this.comId ? this.comId + '' : this.articleId + '',
-            content: this.content,
+            content: this.currentReplyCommentR ? this.content + '@//' + this.currentReplyCommentR.aut_name + ' ' + this.currentReplyCommentR.content : this.content,
             art_id: this.comId ? this.articleId + '' : null
           })
           console.log('发表评论', data)
