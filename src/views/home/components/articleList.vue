@@ -1,5 +1,5 @@
 <template>
-  <div class="articleList">
+  <div class="articleList" ref="articleList">
     <van-pull-refresh
      success-text="刷新成功"
      v-model="refreshing"
@@ -26,6 +26,7 @@
 <script>
 import { getArticleListApi } from '@/http/article.js'
 import ArticleItem from '@/components/articleItem/articleItem.vue'
+import { debounce } from 'lodash'
 export default {
   name: 'articleList',
   data () {
@@ -39,7 +40,9 @@ export default {
       // 文章列表
       articleList: [],
       // 调用文章接口传的时间戳 相当于是页码 用于请求历史数据 第一次请求数据是传当前的时间戳
-      timestamp: null
+      timestamp: null,
+      // 文章列表距离顶部的高度
+      scrollTop: 0
     }
   },
   components: {
@@ -110,14 +113,29 @@ export default {
     },
     // 点击文章跳转详情页
     clickArticleDetail (artId) {
-      console.log('跳转详情页', artId)
       this.$router.push({
         name: 'articleDetail',
         params: {
           articleId: artId + ''
         }
       })
+    },
+    // 设置list标签距离屏幕顶部高度
+    setScrollTop () {
+      const articleList = this.$refs.articleList
+      articleList.scrollTop = this.scrollTop
     }
+  },
+  mounted () {
+    const articleList = this.$refs.articleList
+    // 监听文章列表的滚动事件 得到每次列表滚动时距离屏幕顶部的高度 (防抖)
+    articleList.onscroll = debounce(() => {
+      this.scrollTop = articleList.scrollTop
+    }, 50)
+  },
+  activated () {
+    // 给列表设置距离屏幕顶部的高度
+    this.setScrollTop()
   }
 }
 </script>

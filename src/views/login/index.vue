@@ -68,6 +68,7 @@ export default {
       try {
         // 表单验证
         await this.$refs.loginForm.validate()
+
         this.$toast.loading({
           message: '登录中...',
           forbidClick: true,
@@ -76,11 +77,17 @@ export default {
         try {
           const { data } = await hanldeLoginApi(this.user)
           console.log('请求返回', data)
+
           this.$toast.success('登陆成功')
+
+          // 登陆成功后 清除页面缓存
+          this.$store.commit('removeAcaheView', 'layout')
+
           // vuex存储登录接口获取的token数据
           this.$store.commit('setUser', data.data)
-          // 登录成功 返回上一个页面
-          this.$router.back()
+          // 登录成功 返回上一个页面  这种方式不太好 比如你从外部一个网站直接进入登录页 那么登录成功还是会跳转到这个外部网站
+          // this.$router.back()
+          this.$router.push(this.$route.query.redirect || '/')
         } catch (err) {
           console.log('登陆失败', err)
           this.$toast.fail('登陆失败 手机号或验证码错误')

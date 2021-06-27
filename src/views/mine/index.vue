@@ -42,7 +42,12 @@
     </van-cell-group>
     <van-cell-group v-else class="no-login" :border="false">
       <van-cell>
-        <div slot="title" class="no-login-wrapper" @click="$router.push('login')">
+        <div slot="title" class="no-login-wrapper" @click="$router.push({
+          name: 'login',
+          query: {
+            redirect: '/mine'
+          }
+        })">
           <div>
             <i class="iconfont toutiao-wode"></i>
           </div>
@@ -54,8 +59,7 @@
       <van-grid-item icon-prefix="iconfont toutiao" icon="shoucang" text="收藏" />
       <van-grid-item icon-prefix="iconfont toutiao" icon="lishi" text="历史" />
     </van-grid>
-    <van-cell title="消息通知" />
-    <van-cell title="小智同学" />
+    <van-cell title="小智同学" is-link to="chat" />
     <van-cell v-if="user"
       class="logout"
       title="退出登录"
@@ -71,7 +75,8 @@ export default {
   name: 'mine',
   data () {
     return {
-      currentUser: {}
+      currentUser: {},
+      e: null
     }
   },
   computed: {
@@ -90,6 +95,8 @@ export default {
       }).then(() => {
         // on close
         this.$store.commit('setUser', null)
+        // 点击退出登录 需要清除二级路由home页面的缓存
+        this.$store.commit('addHomeAcaheView', 'home')
       })
     },
     editData () {

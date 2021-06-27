@@ -20,14 +20,14 @@
     </van-nav-bar>
   </div>
   <!-- 顶部标签页 -->
-  <van-tabs v-model="active" color="#3296fa" swipeable duration="0.5" class="tabList">
+  <van-tabs @change="torggleTab" v-model="active" color="#3296fa" swipeable duration="0.5" class="tabList">
     <van-tab
       :key="item.id"
       v-for="item in userTabsList"
       :title='item.name'
     >
       <!-- 文章列表组件 -->
-      <article-list :articleId="item.id"></article-list>
+      <article-list :ref="'refs_' + active" :articleId="item.id"></article-list>
     </van-tab>
     <!-- van- tabs 右侧内容插槽 -->
     <div slot="nav-right">
@@ -143,6 +143,12 @@ export default {
       } else {
         setItem('userTabsList', this.userTabsList)
       }
+    },
+    // 切换标签触发
+    torggleTab () {
+      this.$nextTick(() => {
+        this.$refs['refs_' + this.active][this.active].setScrollTop()
+      })
     }
   },
   created () {
@@ -163,6 +169,10 @@ export default {
         this.getUserTabsList()
       }
     }
+  },
+  mounted () {
+    // 跳转到二级路由home页面需要判断 添加页面缓存
+    this.$store.commit('removeHomeAcaheView', 'home')
   }
 
 }

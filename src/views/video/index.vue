@@ -4,7 +4,10 @@
 
 <script>
 export default {
-  name: 'videoCom'
+  name: 'videoCom',
+  created () {
+    console.log('视频')
+  }
 }
 </script>
 
