@@ -13,7 +13,7 @@ import Router from '@/router'
 
 // 通过refresh_token获取新的token 重新创建一个axios实例  这样就不会走request的拦截器
 const refreshTokenReq = axios.create({
-  baseURL: '//ttapi.research.itcast.cn/'
+  baseURL: 'http://ttapi.research.itcast.cn/'
 })
 
 const request = axios.create({
