@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2e279206"],{b15d:function(c,n,e){"use strict";e("ec0c")},c988:function(c,n,e){"use strict";e.r(n);var t=function(){var c=this,n=c.$createElement,e=c._self._c||n;return e("h1",[c._v("问答模块开发中 敬请期待...")])},o=[],u={name:"qa",created:function(){console.log("问答")}},a=u,s=(e("b15d"),e("2877")),i=Object(s["a"])(a,t,o,!1,null,"0ac1204f",null);n["default"]=i.exports},ec0c:function(c,n,e){}}]);
-//# sourceMappingURL=chunk-2e279206.60814ff4.js.map

@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-682df331"],{"007b":function(n,e,c){"use strict";c.r(e);var t=function(){var n=this,e=n.$createElement,c=n._self._c||e;return c("h1",[n._v("视频模块开发中 敬请期待...")])},o=[],u={name:"videoCom",created:function(){console.log("视频")}},a=u,f=(c("1ac9"),c("2877")),i=Object(f["a"])(a,t,o,!1,null,"113f648a",null);e["default"]=i.exports},"162f":function(n,e,c){},"1ac9":function(n,e,c){"use strict";c("162f")}}]);
-//# sourceMappingURL=chunk-682df331.1d3de920.js.map
