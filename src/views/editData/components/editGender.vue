@@ -1,11 +1,16 @@
 <template>
 <div class="edit-gender">
-  <van-nav-bar
+  <!-- 性别选择器 -->
+  <van-picker
+    ref='pickerEdit'
     title="性别"
-    left-text="取消"
-    right-text="完成"
-    @click-left="onClickLeft"
-    @click-right="onClickRight"
+    show-toolbar
+    confirm-button-text='完成'
+    :default-index='userProfitForm.gender'
+    visible-item-count='4'
+    :columns="columns"
+    @confirm="onConfirm"
+    @cancel="onCancel"
   />
 </div>
 </template>
@@ -14,9 +19,24 @@
 import editDataMixin from '@/mixins/editDataMixin'
 export default {
   name: 'EditGender',
-  mixins: [editDataMixin]
+  mixins: [editDataMixin],
+  data () {
+    return {
+      columns: ['男', '女']
+    }
+  },
+  methods: {
+    onConfirm () {
+      this.onClickRight('gender')
+    }
+  }
 }
 </script>
 
 <style scoped lang="scss" src='../style/editData.scss'>
+.van-picker {
+  /deep/.van-picker-columns {
+    height: 220px;
+  }
+}
 </style>

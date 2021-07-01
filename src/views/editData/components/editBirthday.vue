@@ -1,11 +1,12 @@
 <template>
   <div class="edit-birthday">
-    <van-nav-bar
-      title="生日"
-      left-text="取消"
-      right-text="完成"
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
+    <van-datetime-picker
+      visible-item-count='4'
+      v-model="userProfitForm"
+      type="date"
+      title="选择年月日"
+      @confirm="onConfirm"
+      @cancel="onCancel"
     />
   </div>
 </template>
@@ -14,7 +15,23 @@
 import editDataMixin from '@/mixins/editDataMixin'
 export default {
   name: 'EditBirthday',
-  mixins: [editDataMixin]
+  mixins: [editDataMixin],
+  data () {
+    return {
+
+    }
+  },
+  methods: {
+    onConfirm (v) {
+      console.log(this.userProfitForm)
+      console.log(v.getFullYear())
+      console.log(v.getMonth() + 1)
+      console.log(v.getDate())
+      this.onClickRight('birthday')
+    }
+
+  }
+
 }
 </script>
 

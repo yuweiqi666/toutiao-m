@@ -6,19 +6,19 @@
     left-text="取消"
     right-text="完成"
     @click-left="onClickLeft"
-    @click-right="onClickRight"
+    @click-right="onClickRight('name')"
   />
   <!-- 文本输入框 -->
-  <van-form>
+  <van-form ref="editNameForm" :show-error-message='false' :show-error='false'>
     <van-field
-      v-model="username"
+      v-model="userProfitForm.name"
       rows="2"
       autosize
       type="textarea"
       maxlength="7"
-      placeholder="请输入留言"
+      placeholder="请输入昵称"
       show-word-limit
-      :rules="[{ required: true, message: '名称必须为1~7个字符' }]"
+      :rules="[{ required: true, message: '昵称必须在1~7个字符之间' }]"
     />
   </van-form>
 </div>
@@ -26,23 +26,10 @@
 
 <script>
 import editDataMixin from '@/mixins/editDataMixin'
-import rules from '../rules/rules'
+// 父组件传过来的数据进行深拷贝  减引用
 export default {
   name: 'EditName',
-  mixins: [editDataMixin],
-  data () {
-    return {
-      rules
-    }
-  },
-  props: {
-    username: {
-      type: String
-    }
-  },
-  methods: {
-
-  }
+  mixins: [editDataMixin]
 }
 </script>
 

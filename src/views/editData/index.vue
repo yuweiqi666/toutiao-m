@@ -46,11 +46,24 @@
       v-model="popShow"
     >
       <!-- 昵称编辑 -->
-      <edit-name v-if="editItemShow == 'username'" @closeEditPopup='handleCloseEditPopup' :username='userProfit.name'></edit-name>
+      <edit-name
+        v-if="editItemShow == 'username'"
+        @closeEditPopup='handleCloseEditPopup'
+        :userProfit='userProfit'
+      ></edit-name>
       <!-- 性别编辑 -->
-      <edit-gender v-else-if="editItemShow == 'gender'" @closeEditPopup='handleCloseEditPopup'></edit-gender>
+      <edit-gender
+        v-else-if="editItemShow == 'gender'"
+        @closeEditPopup='handleCloseEditPopup'
+        :userProfit='userProfit'
+      ></edit-gender>
       <!-- 生日编辑 -->
-      <edit-birthday v-else-if="editItemShow == 'birthday'" @closeEditPopup='handleCloseEditPopup'></edit-birthday>
+      <edit-birthday
+        v-else-if="editItemShow == 'birthday'"
+        @closeEditPopup='handleCloseEditPopup'
+        :userProfit='new Date(userProfit.birthday)'
+        @editBirthDay='userProfit.birthday = $event'
+      ></edit-birthday>
     </van-popup>
   </div>
 </template>
