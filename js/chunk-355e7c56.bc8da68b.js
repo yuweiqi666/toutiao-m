@@ -1,2 +1,2 @@
 (window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-355e7c56"],{"007b":function(n,e,t){"use strict";t.r(e);var c=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("h1",[n._v("视频模块开发中 敬请期待")])},o=[],a={name:"videoCom",created:function(){console.log("视频")}},u=a,i=(t("1301"),t("2877")),s=Object(i["a"])(u,c,o,!1,null,"04a6e6a2",null);e["default"]=s.exports},1301:function(n,e,t){"use strict";t("42da")},"42da":function(n,e,t){}}]);
-//# sourceMappingURL=chunk-355e7c56.9647aea5.js.map
+//# sourceMappingURL=chunk-355e7c56.bc8da68b.js.map
