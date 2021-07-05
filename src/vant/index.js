@@ -22,7 +22,9 @@ import {
   Popup,
   Icon,
   Search,
-  ImagePreview
+  ImagePreview,
+  Picker,
+  DatetimePicker
 } from 'vant'
 
 // 将图片预览组件注册到全局方法
@@ -48,3 +50,5 @@ Vue.use(List)
 Vue.use(Popup)
 Vue.use(Icon)
 Vue.use(Search)
+Vue.use(Picker)
+Vue.use(DatetimePicker)

@@ -112,3 +112,15 @@ export const getUserProfitApi = () => {
     url: '/app/v1_0/user/profile'
   })
 }
+
+/**
+ * 编辑个人信息
+ */
+
+export const editUserProfitApi = (q) => {
+  return request({
+    method: 'PATCH',
+    url: '/app/v1_0/user/profile',
+    data: q
+  })
+}
